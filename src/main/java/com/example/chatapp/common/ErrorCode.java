@@ -1,4 +1,4 @@
-package com.example.chatapp.service;
+package com.example.chatapp.common;
 
 import lombok.Getter;
 

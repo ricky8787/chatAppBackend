@@ -1,7 +1,6 @@
 package com.example.chatapp.common;
 
 import com.example.chatapp.response.ApiResponse;
-import com.example.chatapp.service.ErrorCode;
 
 import org.springframework.http.ResponseEntity;
 
