@@ -19,7 +19,7 @@ public class ApiResponseFactory {
 
     public static ResponseEntity<ApiResponse<Void>> error(ErrorCode errorCode, String customMessage) {
         return ResponseEntity.badRequest().body(
-            new ApiResponse<>(errorCode.getCode(), customMessage, null)
+            new ApiResponse<>(errorCode.getCode(), customMessage, null) 
         );
     }
 }
