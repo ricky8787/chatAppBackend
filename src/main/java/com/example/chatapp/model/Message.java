@@ -23,22 +23,20 @@ public class Message {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 
-	    @ManyToOne
 	    @JoinColumn(name = "room_id")
-	    private Room room;
+	    private Long room;
 
-	    @ManyToOne
 	    @JoinColumn(name = "sender_id")
-	    private User sender;
+	    private String sender;
 
 	    @Column(columnDefinition = "TEXT")
 	    private String content;
 
-	    @Enumerated(EnumType.STRING)
-	    private MessageType type;
-
 	    @Column(name = "timestamp", updatable = false)
 	    private LocalDateTime timestamp = LocalDateTime.now();
+	    
+	    @Enumerated(EnumType.STRING)
+	    private MessageType type;
 
 	    public enum MessageType {
 	        CHAT, JOIN, LEAVE
