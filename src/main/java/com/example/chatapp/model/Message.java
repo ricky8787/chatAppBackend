@@ -19,26 +19,27 @@ import lombok.Setter;
 @Setter
 public class Message {
 
-	 	@Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-	    @JoinColumn(name = "room_id")
-	    private Long room;
+	@ManyToOne
+	@JoinColumn(name = "room_id", nullable = false)
+	private Room room;
 
-	    @JoinColumn(name = "sender_id")
-	    private String sender;
+	@JoinColumn(name = "sender_id")
+	private String sender;
 
-	    @Column(columnDefinition = "TEXT")
-	    private String content;
+	@Column(columnDefinition = "TEXT")
+	private String content;
 
-	    @Column(name = "timestamp", updatable = false)
-	    private LocalDateTime timestamp = LocalDateTime.now();
-	    
-	    @Enumerated(EnumType.STRING)
-	    private MessageType type;
+	@Column(name = "timestamp", updatable = false)
+	private LocalDateTime timestamp = LocalDateTime.now();
 
-	    public enum MessageType {
-	        CHAT, JOIN, LEAVE
-	    }
+	@Enumerated(EnumType.STRING)
+	private MessageType type;
+
+	public enum MessageType {
+		CHAT, JOIN, LEAVE
+	}
 }

@@ -26,12 +26,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
-    public ResponseEntity<ApiResponse<UserResponse>> register(@RequestBody UserRequest request) {
-        UserResponse response = userService.register(request);
-        return ApiResponseFactory.success(response, "註冊成功");
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable Long id) {
         UserResponse response = userService.getUserById(id);

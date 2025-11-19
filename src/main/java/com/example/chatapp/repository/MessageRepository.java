@@ -12,6 +12,6 @@ import com.example.chatapp.model.Message;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    @Query("SELECT m FROM Message m WHERE m.room.id = :roomId ORDER BY m.timestamp ASC")
-    List<Message> findByRoomId(@Param("roomId") Long roomId);
+	@Query("SELECT m FROM Message m WHERE m.room.id = :roomId")
+	List<Message> findByRoomId(@Param("roomId") Long roomId);
 }
