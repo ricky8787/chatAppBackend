@@ -7,14 +7,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.chatapp.model.RoomMember;
+import com.example.chatapp.entity.Room;
+import com.example.chatapp.entity.RoomMember;
 
 @Repository
 public interface RoomMemberRepository extends JpaRepository<RoomMember, Long> {
 
-    @Query("SELECT rm FROM RoomMember rm WHERE rm.room.id = :roomId")
-    List<RoomMember> findByRoomId(@Param("roomId") Long roomId);
+    List<RoomMember> findByRoomId(Long roomId);
 
-    @Query("SELECT rm FROM RoomMember rm WHERE rm.user.id = :userId")
-    List<RoomMember> findByUserId(@Param("userId") Long userId);
+    List<RoomMember> findByUserId(Long userId);
+
+    boolean existsByRoomIdAndUserId(Long roomId, Long userId);
+
+    @Query("select rm.room from RoomMember rm where rm.users.id = :userId")
+    List<Room> findRoomsByUserId(@Param("userId") Long userId);
 }

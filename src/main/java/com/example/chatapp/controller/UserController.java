@@ -26,12 +26,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable Long id) {
-        UserResponse response = userService.getUserById(id);
-        return ApiResponseFactory.success(response, "查詢成功");
-    }
-
     @GetMapping("/search")
     public ResponseEntity<ApiResponse<UserResponse>> getUserByUsername(@RequestParam String username) {
         UserResponse response = userService.getUserByUsername(username);

@@ -10,4 +10,6 @@ public class HelloController {
 		return "Hello from Spring boot";
 	}
 
+	
+
 }

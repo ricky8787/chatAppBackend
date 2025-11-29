@@ -4,19 +4,15 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.chatapp.model.User;
+import com.example.chatapp.entity.User;
 import com.example.chatapp.repository.UserRepository;
 import com.example.chatapp.request.UserRequest;
 import com.example.chatapp.response.UserResponse;
 
 import lombok.RequiredArgsConstructor;
-import java.lang.IllegalArgumentException;
 
 @Service
 @RequiredArgsConstructor
@@ -54,17 +50,17 @@ public class UserService{
                 .map(user -> new UserResponse(user.getId(), user.getUsername(), user.getNickname()))
                 .collect(Collectors.toList());
     }
-    /**
-     * 
-     * @param request
-     * @return
-     */
-    public UserResponse getUserById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
 
-        return new UserResponse(user.getId(), user.getUsername(), user.getNickname());
-    }
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public User getUserById(Long id) {
+		User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+
+		return user;
+	}
     /**
      * 
      * @param request

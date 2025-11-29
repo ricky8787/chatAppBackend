@@ -34,11 +34,11 @@ public class AuthController {
             UserResponse userResponse = userService.register(request);
             System.out.println("✅ 註冊成功：" + userResponse);
             return ResponseEntity.ok(userResponse); // ✅ 成功回傳 200 + user 資料
-        } catch (IllegalArgumentException e) { // ❌ 使用者已存在
-//        	System.out.println("❌ 錯誤：使用者已存在");
+        } catch (IllegalArgumentException e) { 
+            // 使用者已存在");
             return ResponseEntity.status(400).body("Username already exists");
-        } catch (Exception e) { // ❌ 其他錯誤
-//        	System.out.println("❌ 錯誤：" + e.getMessage());
+        } catch (Exception e) { 
+            // 其他錯誤;
             return ResponseEntity.status(500).body("Internal Server Error");
         }
     }

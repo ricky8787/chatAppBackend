@@ -4,26 +4,20 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import com.example.chatapp.service.CustomUserDetailsService;
-import com.example.chatapp.service.JwtService;
-import com.example.chatapp.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,6 +46,7 @@ public class SecurityConfig {
 	        http.authorizeHttpRequests(authorize -> authorize
 	        		 .requestMatchers("/api/auth/login", "/api/auth/register").permitAll() // 登入 & 註冊不需要登入
 	                 .requestMatchers("/api/**").authenticated()  // 這些 API 需要登入
+	        		//  .requestMatchers("/api/**").permitAll()   //  全部 API 暫時開放
 	            )
 	        	.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 	        	.csrf(csrf -> csrf.disable()); // 關掉 CSRF (方便測試)

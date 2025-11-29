@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.chatapp.model.User;
+import com.example.chatapp.entity.User;
 import com.example.chatapp.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,12 +20,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username)
+        User users = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword()) 
+                .withUsername(users.getUsername())
+                .password(users.getPassword()) 
                 .authorities("USER") // 這邊可以改成你的權限管理
                 .build();
     }
