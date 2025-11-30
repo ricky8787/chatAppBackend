@@ -25,55 +25,53 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-	
-		private final CustomUserDetailsService customUserDetailsService;
-		
-		@Bean
-	    public AuthenticationProvider authenticationProvider() {
-	        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-	        authProvider.setUserDetailsService(customUserDetailsService);
-	        authProvider.setPasswordEncoder(passwordEncoder());
-	        return authProvider;
-	    }
-		
-		@Bean
-	    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-	        return config.getAuthenticationManager();
-	    }
-	    
-	 	@Bean
-	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	        http.authorizeHttpRequests(authorize -> authorize
-	        		 .requestMatchers("/api/auth/login", "/api/auth/register").permitAll() // 登入 & 註冊不需要登入
-	                 .requestMatchers("/api/**").authenticated()  // 這些 API 需要登入
-	        		//  .requestMatchers("/api/**").permitAll()   //  全部 API 暫時開放
-	            )
-	        	.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-	        	.csrf(csrf -> csrf.disable()); // 關掉 CSRF (方便測試)
-	        
 
-	        return http.build();
-	    }
-	 	
-	 	 // ✅ **這是 CORS 設定**
-	    @Bean
-	    public CorsConfigurationSource corsConfigurationSource() {
-	        CorsConfiguration config = new CorsConfiguration();
-	        config.setAllowCredentials(true); // 允許 Cookie、授權標頭
-	        config.setAllowedOrigins(List.of("http://localhost:5173", "http://127.0.0.1:5173")); // 允許前端的 URL
-	        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-	        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+    private final CustomUserDetailsService customUserDetailsService;
 
-	        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	        source.registerCorsConfiguration("/**", config);
-	        return source;
-	    }
-	 	
-	 	@Bean
-	    public PasswordEncoder passwordEncoder() {
-	        return new BCryptPasswordEncoder();
-	    }
-	 	
-	 	
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(customUserDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(authorize -> authorize
+                // 登入 & 註冊不需要登入
+                .requestMatchers("/api/auth/login", "/api/auth/register", "/api/hello").permitAll()
+                .requestMatchers("/api/**").authenticated() // 這些 API 需要登入
+        //  .requestMatchers("/api/**").permitAll()   //  全部 API 暫時開放
+        )
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable()); // 關掉 CSRF (方便測試)
+
+        return http.build();
+    }
+
+    // ✅ **這是 CORS 設定**
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true); // 允許 Cookie、授權標頭
+        config.setAllowedOrigins(List.of("http://localhost:5173", "http://127.0.0.1:5173")); // 允許前端的 URL
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }
